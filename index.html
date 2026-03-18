@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syfer · Saratoga Hot Springs Resort</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  /* ── THEME VARIABLES ── */
+  :root, [data-theme="dark"] {
+    --bg-page:        #0c0c0c;
+    --bg-surface:     #111111;
+    --bg-surface-2:   #0d0d0d;
+    --bg-input:       #0c0c0c;
+    --bg-row-hover:   #141414;
+    --bg-copy:        #1a1a1a;
+    --border:         #1e1e1e;
+    --border-subtle:  #161616;
+    --border-input:   #222222;
+    --border-copy:    #2a2a2a;
+    --text-primary:   #e0dbd3;
+    --text-secondary: #555555;
+    --text-muted:     #444444;
+    --text-faint:     #3a3a3a;
+    --text-org:       #e8e3db;
+    --text-org-desc:  #3a3a3a;
+    --text-th:        #3a3a3a;
+    --text-sep:       #2a2a2a;
+    --score-bar-bg:   #222222;
+    --email-dash:     #2a2a2a;
+    --shadow-toast:   rgba(0,0,0,.5);
+    --theme-icon:     "☀";
+    --theme-label:    "Light Mode";
+  }
+
+  [data-theme="light"] {
+    --bg-page:        #f4f3ef;
+    --bg-surface:     #ffffff;
+    --bg-surface-2:   #f8f7f4;
+    --bg-input:       #f4f3ef;
+    --bg-row-hover:   #faf9f7;
+    --bg-copy:        #ede9e3;
+    --border:         #e2ddd6;
+    --border-subtle:  #ece8e2;
+    --border-input:   #d8d3cc;
+    --border-copy:    #ccc8c0;
+    --text-primary:   #1a1714;
+    --text-secondary: #6b6560;
+    --text-muted:     #7a7570;
+    --text-faint:     #8a8580;
+    --text-org:       #111111;
+    --text-org-desc:  #7a7570;
+    --text-th:        #888077;
+    --text-sep:       #d4cfc8;
+    --score-bar-bg:   #e2ddd6;
+    --email-dash:     #ccc8c0;
+    --shadow-toast:   rgba(0,0,0,.2);
+    --theme-icon:     "☾";
+    --theme-label:    "Dark Mode";
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    transition: background .2s, color .2s;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    transition: background .2s, border-color .2s;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 20px; }
+  .logo { font-family: 'Cinzel', serif; font-size: 18px; color: #8E632F; font-weight: 700; letter-spacing: 2px; }
+  .logo-sep { color: var(--text-sep); font-size: 20px; }
+  .topbar-subtitle { font-size: 12px; color: var(--text-secondary); letter-spacing: 1px; }
+  .live-badge {
+    background: #10B981; color: #fff; font-size: 9px; font-weight: 700;
+    letter-spacing: 2px; padding: 3px 10px; border-radius: 20px;
+  }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .updated { font-size: 10px; color: var(--text-faint); }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--bg-copy); border: 1px solid var(--border-copy);
+    color: var(--text-secondary); padding: 6px 12px; border-radius: 20px;
+    cursor: pointer; font-family: 'Inter', sans-serif; font-size: 11px;
+    font-weight: 600; letter-spacing: 0.5px; transition: all .2s;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { border-color: #8E632F; color: #C4A97D; }
+  .theme-icon { font-size: 13px; line-height: 1; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    background: #8E632F; color: #fff; border: none; padding: 7px 16px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; cursor: pointer;
+    border-radius: 2px; font-family: 'Inter', sans-serif; transition: background .15s;
+  }
+  .btn:hover { background: #a07038; }
+  .btn-ghost {
+    background: transparent; color: var(--text-secondary);
+    border: 1px solid var(--border-copy);
+    padding: 6px 14px; font-size: 10px; letter-spacing: 1px;
+    cursor: pointer; border-radius: 2px; font-family: 'Inter', sans-serif;
+    transition: all .15s;
+  }
+  .btn-ghost:hover { border-color: #8E632F; color: #C4A97D; }
+
+  /* ── CONTENT ── */
+  .content { max-width: 1400px; margin: 0 auto; padding: 28px 32px; }
+
+  /* ── DATE FILTER BAR ── */
+  .date-bar {
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px;
+    padding: 16px 24px; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    transition: background .2s, border-color .2s;
+  }
+  .date-bar-label {
+    font-size: 10px; color: var(--text-secondary);
+    letter-spacing: 2px; text-transform: uppercase; white-space: nowrap;
+  }
+  .date-select {
+    background: var(--bg-input); border: 1px solid var(--border-input);
+    color: #C4A97D; padding: 8px 14px; border-radius: 2px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; outline: none; min-width: 260px; transition: all .2s;
+  }
+  .date-select:focus { border-color: #8E632F; }
+  .date-nav { display: flex; gap: 6px; }
+  .date-nav-btn {
+    background: var(--bg-copy); border: 1px solid var(--border-copy);
+    color: var(--text-secondary);
+    padding: 7px 12px; font-size: 11px; cursor: pointer; border-radius: 2px;
+    font-family: 'Inter', sans-serif; transition: all .15s;
+  }
+  .date-nav-btn:hover { border-color: #8E632F; color: #C4A97D; }
+  .date-count { margin-left: auto; font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+
+  /* ── STAT CARDS ── */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px;
+    padding: 18px 22px; transition: background .2s, border-color .2s;
+  }
+  .stat-card.accent { border-color: #8E632F66; }
+  .stat-num { font-family: 'Cinzel', serif; font-size: 30px; font-weight: 700; color: #C4A97D; line-height: 1; }
+  .stat-num.green  { color: #10B981; }
+  .stat-num.blue   { color: #3B82F6; }
+  .stat-num.amber  { color: #F59E0B; }
+  .stat-label { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-top: 7px; }
+  .stat-sub { font-size: 11px; color: var(--text-faint); margin-top: 4px; }
+
+  /* ── TYPE CHIPS ── */
+  .type-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .type-chip {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 20px;
+    padding: 7px 16px; cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .type-chip:hover, .type-chip.active { border-color: var(--tc); }
+  .type-chip.active .type-chip-label { color: var(--tc); }
+  .type-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tc); }
+  .type-chip-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: color .15s; }
+  .type-chip-count { font-size: 11px; color: var(--text-muted); }
+
+  /* ── TABLE SECTION ── */
+  .table-section {
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px;
+    transition: background .2s, border-color .2s;
+  }
+  .table-header {
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .table-title { font-family: 'Cinzel', serif; font-size: 13px; color: #C4A97D; font-weight: 700; }
+  .table-controls { display: flex; gap: 10px; align-items: center; }
+  .search-box {
+    background: var(--bg-input); border: 1px solid var(--border-input);
+    color: var(--text-primary); padding: 6px 14px; border-radius: 2px;
+    font-family: 'Inter', sans-serif; font-size: 12px; outline: none; width: 200px; transition: all .2s;
+  }
+  .search-box:focus { border-color: #8E632F; }
+  .filter-select {
+    background: var(--bg-input); border: 1px solid var(--border-input);
+    color: var(--text-secondary); padding: 6px 12px; border-radius: 2px;
+    font-family: 'Inter', sans-serif; font-size: 11px; outline: none; cursor: pointer;
+    transition: all .2s;
+  }
+  .result-count { font-size: 11px; color: var(--text-muted); }
+
+  /* ── TABLE ── */
+  .lead-table { width: 100%; border-collapse: collapse; }
+  .lead-table thead th {
+    padding: 10px 18px; text-align: left; font-size: 9px; letter-spacing: 2px;
+    color: var(--text-th); font-weight: 700;
+    background: var(--bg-surface-2); border-bottom: 1px solid var(--border);
+    transition: background .2s;
+  }
+  .lead-row { cursor: default; transition: background .1s; }
+  .lead-row:hover { background: var(--bg-row-hover); }
+  .lead-row td { padding: 13px 18px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+  .org-name { font-weight: 600; color: var(--text-org); font-size: 13px; }
+  .org-name a { color: var(--text-org); text-decoration: none; }
+  .org-name a:hover { color: #C4A97D; }
+  .org-desc { font-size: 11px; color: var(--text-org-desc); margin-top: 3px; line-height: 1.4; }
+  .type-tag { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+  .score-cell { display: flex; align-items: center; gap: 7px; }
+  .score-bar-bg { flex: 1; height: 5px; background: var(--score-bar-bg); border-radius: 3px; max-width: 60px; }
+  .score-bar-fill { height: 5px; border-radius: 3px; }
+  .score-num { font-size: 11px; font-weight: 700; min-width: 14px; }
+  .status-tag { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+  .email-cell { font-size: 12px; }
+  .email-cell a { color: #C4A97D; text-decoration: none; }
+  .email-cell a:hover { color: #a07038; }
+  .copy-btn {
+    background: var(--bg-copy); border: 1px solid var(--border-copy);
+    color: var(--text-secondary); padding: 5px 11px; font-size: 9px; letter-spacing: 1.5px;
+    font-weight: 700; cursor: pointer; border-radius: 2px; font-family: 'Inter', sans-serif;
+    transition: all .15s; white-space: nowrap;
+  }
+  .copy-btn:hover { background: #8E632F22; border-color: #8E632F; color: #C4A97D; }
+  .empty-state { text-align: center; padding: 60px 0; color: var(--text-muted); font-size: 13px; }
+  .empty-state .empty-icon { font-size: 36px; margin-bottom: 12px; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 28px; right: 28px; background: #10B981;
+    color: #fff; padding: 11px 20px; border-radius: 4px; font-size: 12px;
+    font-weight: 600; z-index: 9999; display: none; letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px var(--shadow-toast);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .content { padding: 16px; }
+    .topbar-subtitle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo">SYFER</div>
+    <div class="logo-sep">|</div>
+    <div class="topbar-subtitle">SARATOGA HOT SPRINGS RESORT · GROUP SALES INTELLIGENCE</div>
+  </div>
+  <div class="topbar-right">
+    <span class="live-badge">● LIVE</span>
+    <span class="updated">Updated: March 18, 2026 · 01:27 PM</span>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">
+      <span class="theme-icon" id="theme-icon">☀</span>
+      <span id="theme-label">Light Mode</span>
+    </button>
+    <button class="btn-ghost" onclick="exportCSV()">EXPORT CSV</button>
+    <button class="btn" onclick="window.print()">PRINT</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- DATE FILTER BAR -->
+  <div class="date-bar">
+    <span class="date-bar-label">Viewing leads from</span>
+    <select class="date-select" id="date-select" onchange="onDateChange(this.value)">
+      <option value="2026-03-18" selected>Today — March 18, 2026 (34 leads)</option>
+
+    </select>
+    <div class="date-nav">
+      <button class="date-nav-btn" onclick="stepDate(-1)">&#8592; Prev</button>
+      <button class="date-nav-btn" onclick="stepDate(1)">Next &#8594;</button>
+    </div>
+    <div class="date-count" id="date-total-count"></div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stats-row">
+    <div class="stat-card accent">
+      <div class="stat-num" id="stat-new">—</div>
+      <div class="stat-label">New Leads This Day</div>
+      <div class="stat-sub" id="stat-total-sub"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num green" id="stat-high">—</div>
+      <div class="stat-label">High Priority (8+)</div>
+      <div class="stat-sub">Ready to contact</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num blue" id="stat-emails">—</div>
+      <div class="stat-label">Emails Captured</div>
+      <div class="stat-sub">From company pages</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num amber" id="stat-db">—</div>
+      <div class="stat-label">Total Leads in DB</div>
+      <div class="stat-sub">All time</div>
+    </div>
+  </div>
+
+  <!-- TYPE FILTER CHIPS -->
+  <div class="type-row">
+    <div class="type-chip active" style="--tc:#C4A97D" onclick="filterType('all',this)">
+      <div class="type-dot" style="background:#C4A97D"></div>
+      <span class="type-chip-label">All Types</span>
+      <span class="type-chip-count" id="chip-all">0</span>
+    </div>
+    <div class="type-chip" style="--tc:#3B82F6" onclick="filterType('Corporate',this)">
+      <div class="type-dot"></div>
+      <span class="type-chip-label">Corporate</span>
+      <span class="type-chip-count" id="chip-Corporate">0</span>
+    </div>
+    <div class="type-chip" style="--tc:#10B981" onclick="filterType('Medical',this)">
+      <div class="type-dot"></div>
+      <span class="type-chip-label">Medical</span>
+      <span class="type-chip-count" id="chip-Medical">0</span>
+    </div>
+    <div class="type-chip" style="--tc:#F59E0B" onclick="filterType('Outdoor',this)">
+      <div class="type-dot"></div>
+      <span class="type-chip-label">Outdoor</span>
+      <span class="type-chip-count" id="chip-Outdoor">0</span>
+    </div>
+    <div class="type-chip" style="--tc:#8B5CF6" onclick="filterType('Nonprofit',this)">
+      <div class="type-dot"></div>
+      <span class="type-chip-label">Nonprofit</span>
+      <span class="type-chip-count" id="chip-Nonprofit">0</span>
+    </div>
+  </div>
+
+  <!-- LEAD TABLE -->
+  <div class="table-section">
+    <div class="table-header">
+      <div class="table-title">Front Range Lead Intelligence</div>
+      <div class="table-controls">
+        <input class="search-box" type="text" placeholder="Search org or city..."
+               oninput="onSearch(this.value)" id="search-input"/>
+        <select class="filter-select" onchange="onStatusFilter(this.value)">
+          <option value="all">All Status</option>
+          <option value="New">New</option>
+          <option value="Warm">Warm</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Booked">Booked</option>
+        </select>
+        <span class="result-count" id="result-count"></span>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="lead-table">
+        <thead>
+          <tr>
+            <th style="width:34%">ORGANIZATION</th>
+            <th style="width:11%">TYPE</th>
+            <th style="width:13%">PRIORITY</th>
+            <th style="width:9%">STATUS</th>
+            <th style="width:22%">EMAIL</th>
+            <th style="width:11%">ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="lead-tbody">
+          <tr><td colspan="6" class="empty-state">
+            <div class="empty-icon">◈</div>
+            Loading leads...
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<div id="toast">✓ Copied to clipboard</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+const ALL_LEADS = [{"id": 22, "org_name": "Colorado Outfitters", "org_type": "Outdoor", "city": "Denver", "score": 10, "status": "New", "email": "info@co-outfitters.com", "website": "https://www.co-outfitters.com/", "description": "Colorado Outfittersis a year-round, full-time professional hunting and outfitting organiza", "found_date": "2026-03-18"}, {"id": 11, "org_name": "University of Colorado Health, Medical Center of the Rockies -", "org_type": "Medical", "city": "Denver", "score": 10, "status": "New", "email": "rsedmak@slamcoll.com", "website": "https://slamcoll.com/portfolio/university-of-colorado-health-medical-center-of-the-rockies/", "description": "MedicalCenterof the Rockies (MCR) is the flagshiphospitalfor the North Region of the Unive", "found_date": "2026-03-18"}, {"id": 34, "org_name": "Programs & Events", "org_type": "Nonprofit", "city": "Denver", "score": 9, "status": "New", "email": "", "website": "https://coloradononprofits.org/member-resources/programs-events/", "description": "TheColoradoNonprofitAssociationplaces our members and thenonprofitcommunity at the highest", "found_date": "2026-03-18"}, {"id": 33, "org_name": "Colorado Nonprofit Association", "org_type": "Nonprofit", "city": "Denver", "score": 9, "status": "New", "email": "info@coloradononprofits.org", "website": "https://www.coloradogives.org/organization/ColoradoNonprofits", "description": "... ofColoradohas over 34 ,000nonprofitswith over 182, 000 employees and ONEorganizationre", "found_date": "2026-03-18"}, {"id": 31, "org_name": "12 InspiringDenverNonprofitsMaking a Difference", "org_type": "Nonprofit", "city": "Denver", "score": 9, "status": "New", "email": "support@charitycharge.com", "website": "https://www.charitycharge.com/nonprofit-resources/denver-nonprofits/", "description": "Through strategic philanthropy, thisDenvernonprofitplays a critical role in local developm", "found_date": "2026-03-18"}, {"id": 30, "org_name": "ColoradoNonprofitAssociation", "org_type": "Nonprofit", "city": "Denver", "score": 9, "status": "New", "email": "membership@coloradononprofits.org", "website": "https://coloradononprofits.org/", "description": "TheColoradoNonprofitSalaries & Benefits Survey is a digital publication that is composed o", "found_date": "2026-03-18"}, {"id": 24, "org_name": "Colorado BHA Q4 2022 Update", "org_type": "Outdoor", "city": "Denver", "score": 8, "status": "New", "email": "", "website": "https://www.backcountryhunters.org/colorado_bha_q4_2022_update", "description": "...ColoradoSprings for one of the programs ... During the second half of 2022 two AFIhunts", "found_date": "2026-03-18"}, {"id": 21, "org_name": "Find Your Outfitter", "org_type": "Outdoor", "city": "Denver", "score": 8, "status": "New", "email": "", "website": "https://coloradooutfitters.org/find-your-outfitter.php", "description": "Reg #: 2219 1650 Pearl St.# 6, Denver, CO 80203 Phone: 303-864-0547 Email: matschee33@gmai", "found_date": "2026-03-18"}, {"id": 19, "org_name": "Hunting in Colorado", "org_type": "Outdoor", "city": "Denver", "score": 8, "status": "New", "email": "grygas61@newpaltz.edu", "website": "https://patricksperry.com/tag/hunting-in-colorado/page/2/", "description": "Coloradooffers convenient and diverse public shootingrangesthat are open year-round. A lar", "found_date": "2026-03-18"}, {"id": 20, "org_name": "Colorado Outfitters Association", "org_type": "Outdoor", "city": "Denver", "score": 8, "status": "New", "email": "", "website": "https://www.coloradooutfitters.org/", "description": "For visitors to Colorado: you can browse the services and hunt areas serviced by our Outfi", "found_date": "2026-03-18"}, {"id": 18, "org_name": "Colorado Parks and Wildlife settles with hunting groups that", "org_type": "Outdoor", "city": "Denver", "score": 8, "status": "New", "email": "", "website": "https://coloradosun.com/2025/04/15/colorado-wildlife-commissioners-settles-lawsuit-with-hunting-groups/", "description": "Two influentialhuntingorganizationsthat sued members of theColoradoParks and Wildlife Comm", "found_date": "2026-03-18"}, {"id": 32, "org_name": "Volunteering,NonprofitJobs, and Community", "org_type": "Nonprofit", "city": "Denver", "score": 7, "status": "New", "email": "support@idealist.org", "website": "https://www.idealist.org/", "description": "Add YourOrganization. Join over 250,000nonprofitsand community groups using Idealist to po", "found_date": "2026-03-18"}, {"id": 9, "org_name": "Hospital Training Sites", "org_type": "Medical", "city": "Denver", "score": 7, "status": "New", "email": "", "website": "https://medschool.cuanschutz.edu/ob-gyn/education/residency/program/hospital-training-sites", "description": "Residents rotate between UCHealth (University ofColoradoHospital),DenverHealthMedicalCente", "found_date": "2026-03-18"}, {"id": 6, "org_name": "Denver Corporate Events", "org_type": "Corporate", "city": "Denver", "score": 7, "status": "New", "email": "info@theyimprov.com", "website": "https://theyimprov.com/denver-corporate-events.htm", "description": "Find out how you can entertain your business at yourDenvercorporateevent, banquet or priva", "found_date": "2026-03-18"}, {"id": 3, "org_name": "Denver Office Team Building", "org_type": "Corporate", "city": "Denver", "score": 7, "status": "New", "email": "", "website": "https://www.inmotionhosting.com/employment/employee-blog/denver-office-team-building/", "description": "OurHR, Recruitment, and Trainingdepartmentstried their luck at Top Golf inDenverfor theirt", "found_date": "2026-03-18"}, {"id": 29, "org_name": "UltimatelySocial", "org_type": "Outdoor", "city": "Denver", "score": 6, "status": "New", "email": "", "website": "https://www.ultimatelysocial.com/?utm_source=usmplus_settings_page&utm_campaign=credit_link_to_homepage&utm_medium=banner", "description": "Via article listing", "found_date": "2026-03-18"}, {"id": 28, "org_name": "Click here to RSVP", "org_type": "Outdoor", "city": "Denver", "score": 6, "status": "New", "email": "", "website": "http://org2.salsalabs.com/dia/track.jsp?v=2&c=8ZHY26fePRzIDkTZ%2FycVTS4N0vLCOQqX", "description": "Via article listing", "found_date": "2026-03-18"}, {"id": 27, "org_name": "Front Range Anglers", "org_type": "Outdoor", "city": "Denver", "score": 6, "status": "New", "email": "inquiries@frontrangeanglers.com", "website": "http://frontrangeanglers.com", "description": "Via article listing", "found_date": "2026-03-18"}, {"id": 26, "org_name": "Rocky Mountain Anglers", "org_type": "Outdoor", "city": "Denver", "score": 6, "status": "New", "email": "", "website": "http://rockymtanglers.com", "description": "Via article listing", "found_date": "2026-03-18"}, {"id": 25, "org_name": "https://vimeo.com/150182088", "org_type": "Outdoor", "city": "Denver", "score": 6, "status": "New", "email": "", "website": "https://vimeo.com/150182088", "description": "Via article listing", "found_date": "2026-03-18"}, {"id": 23, "org_name": "Colorado Trappers Association November 2014 ReportThe Trapper", "org_type": "Outdoor", "city": "Denver", "score": 5, "status": "New", "email": "dan@coloradoridacritter.com", "website": "https://www.trappermag.com/article-index/colorado-trappers-association-november-2014-report", "description": "He has been working with other sportsmen\u2019sorganizationsto form theColoradoSportsmans\u2019 Alli", "found_date": "2026-03-18"}, {"id": 17, "org_name": "Business Consultants in Colorado, United States", "org_type": "Outdoor", "city": "Denver", "score": 5, "status": "New", "email": "", "website": "https://www.n49.com/search/Business+Consultants/6318/Colorado/", "description": "...ColoradoApostille Services LLC is your trusted partner for mobile notary, apostille, an", "found_date": "2026-03-18"}, {"id": 16, "org_name": "2025 Health Care Week: Summer Giveaway", "org_type": "Medical", "city": "Denver", "score": 5, "status": "New", "email": "noco-foundation@uchealth.org", "website": "https://www.uchealthnocofoundation.org/events/past-events/2025/hcw/", "description": "Plus,UCHealthalways matches 50% of every $1 you give toUCHealthNorthernColoradoFoundation,", "found_date": "2026-03-18"}, {"id": 15, "org_name": "Health Care Events Week: Summer Giveaway", "org_type": "Medical", "city": "Denver", "score": 5, "status": "New", "email": "noco-foundation@uchealth.org", "website": "https://www.uchealthnocofoundation.org/employee-giving/2024/hcw-summer-giveaway/", "description": "AtUCHealthin northernColorado, giving isn\u2019t just something we do; it\u2019s who we are. ...UCHe", "found_date": "2026-03-18"}, {"id": 14, "org_name": "Events", "org_type": "Medical", "city": "Denver", "score": 5, "status": "New", "email": "noco-foundation@uchealth.org", "website": "https://www.uchealthnocofoundation.org/events/", "description": "...Coloradois preparing for the annual Coffee for a Cureevent\u2013its largest fundraising init", "found_date": "2026-03-18"}, {"id": 13, "org_name": "intermountainhealthcare.org", "org_type": "Medical", "city": "Denver", "score": 5, "status": "New", "email": "", "website": "https://intermountainhealthcare.org/", "description": "IntermountainHealth(DenverMetro Area).", "found_date": "2026-03-18"}, {"id": 12, "org_name": "A ThrivingDenverComes Together for... -DenverHealthFoundation", "org_type": "Medical", "city": "Denver", "score": 5, "status": "New", "email": "dhfoundation@dhha.org", "website": "https://denverhealthfoundation.org/stories/story/a-thriving-denver-comes-together-for-health-and-hope/", "description": "DenverHealthFoundation Interim Executive Director Sean VanBerschot expressed deep gratitud", "found_date": "2026-03-18"}, {"id": 10, "org_name": "DenverEM", "org_type": "Medical", "city": "Denver", "score": 5, "status": "New", "email": "", "website": "https://www.denverem.org/what-to-look-for", "description": "AtDenverHealthMedicalCenterwe have about 80,000 annual visits in our emergency department.", "found_date": "2026-03-18"}, {"id": 8, "org_name": "Denver Corporate Events and Conferences Rentals", "org_type": "Corporate", "city": "Denver", "score": 5, "status": "New", "email": "info@twges.com", "website": "https://thewrightgroupnow.com/denver-corporate-events-and-conferences-rentals-tents-stages-chairs/", "description": "OurDenver-based, family-ownedcompanyhas spent three decades transforming parking lots, hot", "found_date": "2026-03-18"}, {"id": 7, "org_name": "Denver Corporate Event Planning", "org_type": "Corporate", "city": "Denver", "score": 5, "status": "New", "email": "", "website": "https://nationaleventpros.com/denver/event-types/corporate/", "description": "...EventProsDenverCorporateEventPlanningOur professionaleventplannersunderstand the unique", "found_date": "2026-03-18"}, {"id": 5, "org_name": "Government Marathon Relay", "org_type": "Corporate", "city": "Denver", "score": 5, "status": "New", "email": "", "website": "https://www.runcolfax.org/races/government-cup-relay/", "description": "HRDIRECTORS \u2013 You can buy multiple registrations all at once for your employees andteams. ", "found_date": "2026-03-18"}, {"id": 4, "org_name": "Corporate Marathon Relay", "org_type": "Corporate", "city": "Denver", "score": 5, "status": "New", "email": "", "website": "https://www.runcolfax.org/races/corporate-cup-relay/", "description": "HRDIRECTORS \u2013 You can buy multiple registrations all at once for your employees andteams. ", "found_date": "2026-03-18"}, {"id": 2, "org_name": "CorporateRetreatPlanningExperts", "org_type": "Corporate", "city": "Denver", "score": 5, "status": "New", "email": "", "website": "https://www.monikerpartners.com/corporate-retreat-planners", "description": "Expertcorporateretreatplannerswith 300+ events completed. Dedicated 3-person teams handle ", "found_date": "2026-03-18"}, {"id": 1, "org_name": "TeamOut", "org_type": "Corporate", "city": "Denver", "score": 5, "status": "New", "email": "sales@teamout.com", "website": "https://www.teamout.com/", "description": "TeamOut is the end-to-endcorporateretreatplatform. From venue selection to transportation ", "found_date": "2026-03-18"}];
+
+const TYPE_COLORS = {
+  Corporate: '#3B82F6', Medical: '#10B981',
+  Outdoor: '#F59E0B', Nonprofit: '#8B5CF6', General: '#6B7280'
+};
+const STATUS_COLORS = {
+  New: '#6B7280', Warm: '#F59E0B', Contacted: '#3B82F6',
+  Booked: '#10B981', Dead: '#EF4444'
+};
+
+// ── THEME ─────────────────────────────────────────────────────
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('syfer-theme', theme);
+  const isDark = theme === 'dark';
+  document.getElementById('theme-icon').textContent  = isDark ? '☀' : '☾';
+  document.getElementById('theme-label').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+// Load saved theme on page load
+(function() {
+  const saved = localStorage.getItem('syfer-theme');
+  if (saved) applyTheme(saved);
+  else applyTheme('dark');
+})();
+
+// ── STATE ─────────────────────────────────────────────────────
+let currentDate   = document.getElementById('date-select').value;
+let activeType    = 'all';
+let activeStatus  = 'all';
+let searchQuery   = '';
+
+window.addEventListener('DOMContentLoaded', () => renderAll());
+
+// ── DATE CHANGE ───────────────────────────────────────────────
+function onDateChange(val) {
+  currentDate  = val;
+  activeType   = 'all';
+  activeStatus = 'all';
+  searchQuery  = '';
+  document.getElementById('search-input').value = '';
+  document.querySelectorAll('.filter-select').forEach(s => s.value = 'all');
+  document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('.type-chip').classList.add('active');
+  renderAll();
+}
+
+function stepDate(dir) {
+  const sel  = document.getElementById('date-select');
+  const opts = Array.from(sel.options);
+  const idx  = opts.findIndex(o => o.value === sel.value);
+  const next = idx - dir;
+  if (next >= 0 && next < opts.length) {
+    sel.value = opts[next].value;
+    onDateChange(opts[next].value);
+  }
+}
+
+// ── FILTERS ───────────────────────────────────────────────────
+function filterType(type, el) {
+  activeType = type;
+  document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderTable();
+}
+
+function onStatusFilter(val) { activeStatus = val; renderTable(); }
+function onSearch(val)       { searchQuery  = val.toLowerCase(); renderTable(); }
+
+// ── RENDER ────────────────────────────────────────────────────
+function getDateLeads() {
+  return ALL_LEADS.filter(l => l.found_date === currentDate);
+}
+
+function getFiltered() {
+  let leads = getDateLeads();
+  if (activeType !== 'all')   leads = leads.filter(l => l.org_type === activeType);
+  if (activeStatus !== 'all') leads = leads.filter(l => l.status   === activeStatus);
+  if (searchQuery) leads = leads.filter(l =>
+    (l.org_name||'').toLowerCase().includes(searchQuery) ||
+    (l.city||'').toLowerCase().includes(searchQuery) ||
+    (l.email||'').toLowerCase().includes(searchQuery)
+  );
+  return leads.sort((a, b) => b.score - a.score);
+}
+
+function renderAll() {
+  const dl    = getDateLeads();
+  const high  = dl.filter(l => l.score >= 8).length;
+  const emails= dl.filter(l => l.email).length;
+
+  document.getElementById('stat-new').textContent         = dl.length;
+  document.getElementById('stat-high').textContent        = high;
+  document.getElementById('stat-emails').textContent      = emails;
+  document.getElementById('stat-db').textContent          = ALL_LEADS.length;
+  document.getElementById('stat-total-sub').textContent   = ALL_LEADS.length + ' total in database';
+  document.getElementById('date-total-count').textContent = dl.length + ' leads on this date';
+
+  const types = ['Corporate','Medical','Outdoor','Nonprofit'];
+  document.getElementById('chip-all').textContent = dl.length;
+  types.forEach(t => {
+    const el = document.getElementById('chip-' + t);
+    if (el) el.textContent = dl.filter(l => l.org_type === t).length;
+  });
+
+  renderTable();
+}
+
+function renderTable() {
+  const leads = getFiltered();
+  document.getElementById('result-count').textContent = leads.length + ' shown';
+
+  const tbody = document.getElementById('lead-tbody');
+  if (!leads.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">
+      <div class="empty-icon">◈</div>No leads match your filters for this date.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = leads.map(l => {
+    const tc       = TYPE_COLORS[l.org_type] || '#6B7280';
+    const sc       = STATUS_COLORS[l.status] || '#6B7280';
+    const pct      = l.score * 10;
+    const barColor = l.score >= 8 ? '#10B981' : l.score >= 6 ? '#F59E0B' : '#6B7280';
+    const nameHtml = l.website
+      ? `<a href="${l.website}" target="_blank" class="org-name">${esc(l.org_name)}</a>`
+      : `<span class="org-name">${esc(l.org_name)}</span>`;
+    const emailHtml = l.email
+      ? `<a href="mailto:${l.email}">${esc(l.email)}</a>`
+      : `<span style="color:var(--email-dash)">—</span>`;
+    const copyData = [l.org_name, l.city+' CO', l.email, l.website].filter(Boolean).join(' | ');
+
+    return `<tr class="lead-row">
+      <td>
+        ${nameHtml}
+        <div class="org-desc">${esc(l.city)}, CO${l.description ? ' · ' + esc(l.description) : ''}</div>
+      </td>
+      <td><span class="type-tag" style="background:${tc}18;color:${tc};border:1px solid ${tc}44;">${l.org_type}</span></td>
+      <td>
+        <div class="score-cell">
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+          <span class="score-num" style="color:${barColor};">${l.score}</span>
+        </div>
+      </td>
+      <td><span class="status-tag" style="background:${sc}18;color:${sc};border:1px solid ${sc}44;">${l.status}</span></td>
+      <td class="email-cell">${emailHtml}</td>
+      <td><button class="copy-btn" onclick="copyText('${esc(copyData.replace(/'/g,"\'"))}')">COPY</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── UTILITIES ─────────────────────────────────────────────────
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('toast');
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 2000);
+  });
+}
+function exportCSV() {
+  const leads = getFiltered();
+  const h = ['org_name','org_type','city','score','status','email','website','found_date'];
+  const rows = leads.map(l => h.map(k => '"' + (l[k]||'').toString().replace(/"/g,'""') + '"').join(','));
+  const blob = new Blob([[h.join(','), ...rows].join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'syfer_leads_' + currentDate + '.csv';
+  a.click();
+}
+</script>
+</body>
+</html>
