@@ -78,7 +78,8 @@
     transition: background .2s, border-color .2s;
   }
   .topbar-left { display: flex; align-items: center; gap: 20px; }
-  .logo { font-family: 'Cinzel', serif; font-size: 18px; color: #8E632F; font-weight: 700; letter-spacing: 2px; }
+  .logo { display: flex; align-items: center; }
+  .logo img { height: 22px; width: auto; display: block; filter: var(--logo-filter); }
   .logo-sep { color: var(--text-sep); font-size: 20px; }
   .topbar-subtitle { font-size: 12px; color: var(--text-secondary); letter-spacing: 1px; }
   .live-badge {
@@ -262,7 +263,7 @@
   </div>
   <div class="topbar-right">
     <span class="live-badge">● LIVE</span>
-    <span class="updated">Updated: March 18, 2026 · 04:19 PM</span>
+    <span class="updated">Updated: March 18, 2026 · 04:23 PM</span>
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">
       <span class="theme-icon" id="theme-icon">☾</span>
       <span id="theme-label">Dark Mode</span>
