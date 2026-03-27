@@ -262,6 +262,52 @@
 </head>
 <body>
 
+<!-- PASSWORD GATE -->
+<div id="pw-gate" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0d0d1a;z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+  <div style="text-align:center;max-width:360px;padding:40px;">
+    <div style="margin-bottom:24px;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+    </div>
+    <p style="color:#c9a84c;font-family:Georgia,serif;font-size:22px;font-weight:700;letter-spacing:1px;margin:0 0 6px;">ideaBoss&reg;</p>
+    <p style="color:#666;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin:0 0 28px;">Protected Dashboard</p>
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="off"
+      style="width:100%;padding:14px 18px;font-size:15px;border:1px solid #333;border-radius:8px;background:#1a1a2e;color:#fff;outline:none;text-align:center;letter-spacing:1px;box-sizing:border-box;"
+      onfocus="this.style.borderColor='#c9a84c'" onblur="this.style.borderColor='#333'">
+    <p id="pw-error" style="color:#ef4444;font-size:13px;margin:12px 0 0;display:none;">Incorrect password</p>
+    <button id="pw-btn" onclick="checkPw()"
+      style="width:100%;margin-top:16px;padding:14px;font-size:14px;font-weight:700;color:#fff;background:#c9a84c;border:none;border-radius:8px;cursor:pointer;letter-spacing:0.5px;">
+      Unlock Dashboard
+    </button>
+  </div>
+</div>
+<script>
+(function(){
+  var CORRECT_PW = 'Saratogaleads';
+  var STORAGE_KEY = 'iboss_auth';
+
+  if (sessionStorage.getItem(STORAGE_KEY) === 'true') {
+    document.getElementById('pw-gate').style.display = 'none';
+  }
+
+  window.checkPw = function() {
+    var input = document.getElementById('pw-input').value;
+    if (input === CORRECT_PW) {
+      sessionStorage.setItem(STORAGE_KEY, 'true');
+      document.getElementById('pw-gate').style.display = 'none';
+    } else {
+      document.getElementById('pw-error').style.display = 'block';
+      document.getElementById('pw-input').style.borderColor = '#ef4444';
+      document.getElementById('pw-input').value = '';
+      setTimeout(function(){ document.getElementById('pw-error').style.display='none'; document.getElementById('pw-input').style.borderColor='#333'; }, 2000);
+    }
+  };
+
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPw();
+  });
+})();
+</script>
+
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-left">
@@ -272,7 +318,7 @@
   </div>
   <div class="topbar-right">
     <span class="live-badge">● LIVE</span>
-    <span class="updated">Updated: March 26, 2026 · 09:25 AM</span>
+    <span class="updated">Updated: March 27, 2026 · 11:36 AM</span>
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">
       <span class="theme-icon" id="theme-icon">☾</span>
       <span id="theme-label">Dark Mode</span>
