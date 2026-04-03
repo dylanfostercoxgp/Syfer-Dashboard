@@ -122,7 +122,10 @@ Warm Regards,
 - Opening: "Hey [First]," followed by two line breaks, then body
 - Body must include the hook referencing their specific org/role
 - Mention "2.5 hours from Denver" in the Saratoga paragraph
-- Include exactly 3 links: hot-springs, groups, atv-rentals
+- Include exactly 3 links:
+  - https://saratogahotspringsresort.com/hot-springs
+  - https://saratogahotspringsresort.com/meetings-events/
+  - https://wyomingoutdooradventures.com/utv-rentals/
 - Midweek special: "(Monday through Thursday)"
 - Close: "If this sounds like a fit, just hit reply and our team will get back to you right away."
 - Sign-off: "Warm Regards,"
