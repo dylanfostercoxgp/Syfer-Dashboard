@@ -388,6 +388,117 @@
 </head>
 <body>
 
+<!-- PASSWORD PROTECTION OVERLAY -->
+<div id="pw-overlay" style="
+  position:fixed;inset:0;z-index:99999;
+  background:linear-gradient(160deg,#1a0d05 0%,#2d1505 40%,#1f0f07 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Inter',-apple-system,sans-serif;
+">
+  <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect width=%2260%22 height=%2260%22 fill=%22none%22/><circle cx=%2230%22 cy=%2230%22 r=%221%22 fill=%22rgba(196,169,125,0.08)%22/></svg>') repeat;pointer-events:none;"></div>
+  
+  <div style="margin-bottom:28px;">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="28" width="44" height="30" rx="6" fill="#C4A97D" opacity="0.15" stroke="#C4A97D" stroke-width="2"/>
+      <path d="M20 28V20C20 13.373 25.373 8 32 8C38.627 8 44 13.373 44 20V28" stroke="#C4A97D" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <circle cx="32" cy="43" r="4" fill="#C4A97D"/>
+      <line x1="32" y1="47" x2="32" y2="52" stroke="#C4A97D" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div style="text-align:center;margin-bottom:8px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:4px;color:#C4A97D;text-transform:uppercase;margin-bottom:10px;">Saratoga Hot Springs Resort</div>
+    <div style="font-size:22px;font-weight:800;color:#ffffff;letter-spacing:1px;">PROTECTED DASHBOARD</div>
+    <div style="font-size:13px;color:#a08060;margin-top:8px;font-weight:400;">Group Sales Intelligence &mdash; Authorized Access Only</div>
+  </div>
+
+  <div style="width:280px;height:1px;background:linear-gradient(90deg,transparent,#C4A97D55,transparent);margin:24px 0;"></div>
+
+  <div style="width:320px;max-width:90vw;">
+    <div style="position:relative;margin-bottom:16px;">
+      <input 
+        id="pw-input" 
+        type="password" 
+        placeholder="Enter password" 
+        autocomplete="off"
+        style="
+          width:100%;padding:14px 48px 14px 18px;
+          background:rgba(255,255,255,0.07);
+          border:1.5px solid #C4A97D55;
+          border-radius:8px;
+          color:#ffffff;
+          font-size:15px;
+          font-family:'Inter',sans-serif;
+          outline:none;
+          transition:border-color 0.2s;
+          box-sizing:border-box;
+        "
+        onfocus="this.style.borderColor='#C4A97D'"
+        onblur="this.style.borderColor='#C4A97D55'"
+        onkeydown="if(event.key==='Enter')checkPW()"
+      >
+      <button 
+        id="show-pw-btn"
+        onclick="togglePW()"
+        style="
+          position:absolute;right:14px;top:50%;transform:translateY(-50%);
+          background:none;border:none;cursor:pointer;
+          color:#C4A97D;font-size:11px;font-weight:600;
+          letter-spacing:0.5px;padding:4px;
+        "
+      >SHOW</button>
+    </div>
+    <button 
+      onclick="checkPW()"
+      style="
+        width:100%;padding:14px;
+        background:linear-gradient(135deg,#8E632F,#C4A97D);
+        border:none;border-radius:8px;
+        color:#1a0d05;font-size:14px;font-weight:700;
+        letter-spacing:1px;text-transform:uppercase;
+        cursor:pointer;transition:opacity 0.2s;
+        font-family:'Inter',sans-serif;
+      "
+      onmouseover="this.style.opacity='0.9'"
+      onmouseout="this.style.opacity='1'"
+    >Unlock Dashboard</button>
+    <div id="pw-error" style="color:#e07060;font-size:12px;text-align:center;margin-top:10px;display:none;">
+      Incorrect password. Please try again.
+    </div>
+  </div>
+</div>
+
+<script>
+function checkPW() {
+  var val = document.getElementById('pw-input').value;
+  if (val === 'saratoga2026') {
+    document.getElementById('pw-overlay').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+  } else {
+    var err = document.getElementById('pw-error');
+    err.style.display = 'block';
+    var inp = document.getElementById('pw-input');
+    inp.style.borderColor = '#e07060';
+    inp.value = '';
+    setTimeout(function(){ inp.style.borderColor = '#C4A97D55'; err.style.display='none'; }, 2500);
+  }
+}
+function togglePW() {
+  var inp = document.getElementById('pw-input');
+  var btn = document.getElementById('show-pw-btn');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    btn.textContent = 'HIDE';
+  } else {
+    inp.type = 'password';
+    btn.textContent = 'SHOW';
+  }
+}
+</script>
+<!-- END PASSWORD PROTECTION -->
+
+
+
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-left">
