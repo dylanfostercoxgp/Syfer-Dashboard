@@ -209,4 +209,4 @@ That's a comma-separated list of amenities. It reads like every other resort ema
 - Every email must have a unique hook tied to that specific organization
 - Close every email: "If this sounds like a fit, just hit reply and our team will get back to you right away."
 - Sign off: "Warm Regards,"
-- Signature: Ted Roman, General Manager (HTML formatted, T in the brown circle)
+- Signature: Rodrick Cox, Group Sales Manager (HTML formatted, R in the brown circle)
