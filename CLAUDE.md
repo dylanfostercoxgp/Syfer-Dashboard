@@ -115,7 +115,7 @@ Hey [First Name],
 
 Warm Regards,
 
-[HTML Signature — Ted Roman, General Manager]
+[HTML Signature — Rodrick Cox, Group Sales Manager]
 ```
 
 ### Rules (Never Break)
@@ -129,7 +129,7 @@ Warm Regards,
 - Midweek special: "(Monday through Thursday)"
 - Close: "If this sounds like a fit, just hit reply and our team will get back to you right away."
 - Sign-off: "Warm Regards,"
-- Signature: Ted Roman, General Manager (HTML formatted with Saratoga brown #8E632F)
+- Signature: Rodrick Cox, Group Sales Manager (HTML formatted with Saratoga brown #8E632F)
 - NO em dashes
 - NO group size numbers
 - NO "I hope this finds you well" / "My name is..."
@@ -143,8 +143,8 @@ Warm Regards,
 | Outdoor | Adventure + terrain match | ATV, North Platte River, hot springs recovery, brewery |
 
 ### Signature (HTML)
-- Name: Ted Roman
-- Title: General Manager
+- Name: Rodrick Cox
+- Title: Group Sales Manager
 - Company: Saratoga Hot Springs Resort
 - Address: 601 East Pic Pike Road, Saratoga, Wyoming 82331
 - Phone: 307-326-5261
