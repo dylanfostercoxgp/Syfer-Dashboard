@@ -808,7 +808,7 @@ function exportCSV() {
 (function() {
   var ov = document.getElementById('pw-overlay');
   if (sessionStorage.getItem('syfer_auth') === '1') {
-    if (ov) { ov.classList.add('hidden'); ov.style.display = 'none'; }
+    if (ov && ov.parentNode) { ov.parentNode.removeChild(ov); }
   }
   var inp = document.getElementById('pw-input');
   if (inp) {
@@ -831,9 +831,12 @@ function checkPassword() {
     sessionStorage.setItem('syfer_auth', '1');
     var ov = document.getElementById('pw-overlay');
     if (ov) {
-      ov.classList.add('hidden');
-      ov.style.setProperty('display', 'none', 'important');
-      ov.setAttribute('style', 'display:none!important;');
+      ov.style.display = 'none';
+      ov.style.visibility = 'hidden';
+      ov.style.pointerEvents = 'none';
+      ov.style.opacity = '0';
+      ov.style.zIndex = '-9999';
+      if (ov.parentNode) { ov.parentNode.removeChild(ov); }
     }
   } else {
     var errEl = document.getElementById('pw-error');
