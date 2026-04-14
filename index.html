@@ -874,9 +874,7 @@ function openLeadModal(id) {
   var whyText = '';
   if (l.pitch_angle) whyText += l.pitch_angle;
   if (l.full_notes && l.full_notes !== l.description) {
-    if (whyText) whyText += '
-
-';
+    if (whyText) whyText += '\n\n';
     whyText += l.full_notes;
   }
   if (!whyText && l.description) whyText = l.description;
