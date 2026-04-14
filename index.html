@@ -432,9 +432,9 @@
     <div class="pw-access-label">Authorized Access Only</div>
     <div class="pw-input-wrap">
       <input type="password" class="pw-input" id="pw-input" placeholder="Enter password" autocomplete="off" />
-      <button class="pw-show-btn" id="pw-show-btn" onclick="togglePwShow()">SHOW</button>
+      <button type="button" class="pw-show-btn" id="pw-show-btn" onclick="togglePwShow(); return false;">SHOW</button>
     </div>
-    <button class="pw-btn" onclick="checkPassword()">Unlock Dashboard</button>
+    <button type="button" class="pw-btn" onclick="checkPassword(); return false;">Unlock Dashboard</button>
     <div class="pw-error" id="pw-error"></div>
     <div class="pw-footer">
       Powered by <a href="https://ideaboss.io" target="_blank">IdeaBoss.io</a> &nbsp;&middot;&nbsp;
@@ -830,12 +830,17 @@ function checkPassword() {
   if (val === 'Saratogaleads') {
     sessionStorage.setItem('syfer_auth', '1');
     var ov = document.getElementById('pw-overlay');
-    if (ov) { ov.classList.add('hidden'); ov.style.display = 'none'; }
+    if (ov) {
+      ov.classList.add('hidden');
+      ov.style.setProperty('display', 'none', 'important');
+      ov.setAttribute('style', 'display:none!important;');
+    }
   } else {
     var errEl = document.getElementById('pw-error');
     if (errEl) errEl.textContent = 'Incorrect password. Try again.';
     if (inp) { inp.value = ''; inp.focus(); }
   }
+  return false;
 }
 
 // ── LEAD MODAL ────────────────────────────────────────────────
