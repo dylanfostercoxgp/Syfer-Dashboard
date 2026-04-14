@@ -262,27 +262,40 @@
   /* ── PASSWORD OVERLAY ── */
   #pw-overlay {
     position: fixed; inset: 0; z-index: 9999;
-    background: #0c0c0c;
+    background: #f4f0e8;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     font-family: 'Inter', sans-serif;
   }
   #pw-overlay.hidden { display: none; }
-  .pw-box {
-    background: #111111; border: 1px solid #2a2a2a; border-radius: 6px;
-    padding: 48px 52px; text-align: center; max-width: 400px; width: 90%;
+  .pw-card {
+    background: #ffffff; border: 1px solid #d4c4a8; border-radius: 8px;
+    padding: 48px 52px; text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 0 4px 24px rgba(142,99,47,0.10);
   }
+  .pw-lock-circle {
+    width: 60px; height: 60px; background: #8E632F; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .pw-lock-circle svg { width: 28px; height: 28px; fill: #ffffff; }
+  .pw-logos {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin-bottom: 24px;
+  }
+  .pw-logos img { height: 28px; width: auto; filter: none; }
+  .pw-logo-sep { color: #d4c4a8; font-size: 16px; }
   .pw-title {
-    font-family: 'Cinzel', serif; font-size: 22px; color: #C4A97D;
-    letter-spacing: 3px; margin-bottom: 8px;
+    font-family: 'Cinzel', serif; font-size: 20px; color: #1a1714;
+    letter-spacing: 3px; margin-bottom: 6px;
   }
   .pw-subtitle {
-    font-size: 10px; color: #555555; letter-spacing: 2px;
+    font-size: 10px; color: #8a7a6a; letter-spacing: 2px;
     text-transform: uppercase; margin-bottom: 32px;
   }
   .pw-input {
-    width: 100%; background: #0c0c0c; border: 1px solid #2a2a2a;
-    color: #e0dbd3; padding: 12px 16px; border-radius: 2px;
+    width: 100%; background: #f4f0e8; border: 1px solid #d4c4a8;
+    color: #1a1714; padding: 12px 16px; border-radius: 2px;
     font-family: 'Inter', sans-serif; font-size: 14px; outline: none;
     margin-bottom: 14px; text-align: center; letter-spacing: 2px;
     transition: border-color .2s;
@@ -296,7 +309,7 @@
   }
   .pw-btn:hover { background: #a07038; }
   .pw-error {
-    font-size: 11px; color: #ef4444; margin-top: 12px;
+    font-size: 11px; color: #c0392b; margin-top: 12px;
     letter-spacing: 1px; min-height: 16px;
   }
 
