@@ -267,7 +267,7 @@
     align-items: center; justify-content: center;
     font-family: 'Inter', sans-serif;
   }
-  #pw-overlay.hidden { display: none; }
+  #pw-overlay.hidden { display: none !important; }
   .pw-card {
     background: #ffffff; border: 1px solid #d4c4a8; border-radius: 8px;
     padding: 48px 52px; text-align: center; max-width: 420px; width: 90%;
@@ -806,14 +806,14 @@ function exportCSV() {
 
 // ── PASSWORD GATE ──
 (function() {
+  var ov = document.getElementById('pw-overlay');
   if (sessionStorage.getItem('syfer_auth') === '1') {
-    var ov = document.getElementById('pw-overlay');
-    if (ov) ov.classList.add('hidden');
+    if (ov) { ov.classList.add('hidden'); ov.style.display = 'none'; }
   }
   var inp = document.getElementById('pw-input');
   if (inp) {
     inp.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') checkPassword();
+      if (e.key === 'Enter') { e.preventDefault(); checkPassword(); }
     });
   }
 })();
@@ -821,18 +821,20 @@ function togglePwShow() {
   var inp = document.getElementById('pw-input');
   var btn = document.getElementById('pw-show-btn');
   if (!inp) return;
-  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = 'HIDE'; }
-  else { inp.type = 'password'; btn.textContent = 'SHOW'; }
+  if (inp.type === 'password') { inp.type = 'text'; if (btn) btn.textContent = 'HIDE'; }
+  else { inp.type = 'password'; if (btn) btn.textContent = 'SHOW'; }
 }
 function checkPassword() {
-  var val = (document.getElementById('pw-input') || {}).value || '';
+  var inp = document.getElementById('pw-input');
+  var val = inp ? inp.value.trim() : '';
   if (val === 'Saratogaleads') {
     sessionStorage.setItem('syfer_auth', '1');
-    document.getElementById('pw-overlay').classList.add('hidden');
+    var ov = document.getElementById('pw-overlay');
+    if (ov) { ov.classList.add('hidden'); ov.style.display = 'none'; }
   } else {
-    document.getElementById('pw-error').textContent = 'Incorrect password. Try again.';
-    document.getElementById('pw-input').value = '';
-    document.getElementById('pw-input').focus();
+    var errEl = document.getElementById('pw-error');
+    if (errEl) errEl.textContent = 'Incorrect password. Try again.';
+    if (inp) { inp.value = ''; inp.focus(); }
   }
 }
 
